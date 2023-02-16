@@ -1,0 +1,461 @@
+import React, { Component } from 'react';
+import {Image, Text, View, Button, StyleSheet,Animated , ScrollView, TouchableOpacity} from 'react-native';
+import firebase, { app } from "firebase";
+import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+
+
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAVgkSEYyxKLxk-BFWfFM7QT7LzkpSoW8U",
+  authDomain: "esp32-neo.firebaseapp.com",
+  databaseURL: "https://esp32-neo-default-rtdb.firebaseio.com",
+  projectId: "esp32-neo",
+  storageBucket: "esp32-neo.appspot.com",
+  messagingSenderId: "653917202543",
+  appId: "1:653917202543:web:1d57e507d1eba38b79859a",
+  measurementId: "G-VNBSL9TMJQ"
+};
+
+if(!firebase.apps.length){
+ firebase.initializeApp(firebaseConfig);
+}
+
+
+class App extends Component{
+
+  state ={
+    sala1:[],
+    sala2:[],
+    sala3:[],
+    sala4:[],
+    sala5:[],
+    sala6:[],
+    sala7:[],
+    sala8:[],
+    sala9:[],
+    menuside: new Animated.Value(-500),
+  }
+  
+  
+
+  componentDidMount(){
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 1')
+    .on('value',(snapshot)=> {
+      const status1 = (snapshot.val());
+      this.setState({sala1:status1});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 2')
+    .on('value',(snapshot)=> {
+      const status2 = (snapshot.val());
+      this.setState({sala2:status2});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 3')
+    .on('value',(snapshot)=> {
+      const status3 = (snapshot.val());
+      this.setState({sala3:status3});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 4')
+    .on('value',(snapshot)=> {
+      const status4 = (snapshot.val());
+      this.setState({sala4:status4});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 5')
+    .on('value',(snapshot)=> {
+      const status5 = (snapshot.val());
+      this.setState({sala5:status5});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 6')
+    .on('value',(snapshot)=> {
+      const status6 = (snapshot.val());
+      this.setState({sala6:status6});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 7')
+    .on('value',(snapshot)=> {
+      const status7 = (snapshot.val());
+      this.setState({sala7:status7});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 8')
+    .on('value',(snapshot)=> {
+      const status8 = (snapshot.val());
+      this.setState({sala8:status8});
+    });
+    firebase
+    .database()
+    .ref('AR')
+    .child('sala 9')
+    .on('value',(snapshot)=> {
+      const status9 = (snapshot.val());
+      this.setState({sala9:status9});
+    });
+  }
+  Liga_e_Desligar_AR=(ar)=>{ 
+    console.log("entrou na função",ar)
+    var led = firebase.database().ref('AR');
+
+
+    if(ar==1)
+    {
+      if(this.state.sala1 == 0)
+    {
+      led.child('comando').set(10);
+    }else if (this.state.sala1 == 1)
+    {
+      led.child('comando').set(11);
+    }
+    }
+
+
+    else if(ar==2)
+    {
+      if(this.state.sala2 == 0)
+    {
+      led.child('comando').set(20);
+    }else if (this.state.sala2 == 1)
+    {
+      led.child('comando').set(21);
+    }
+    }
+
+
+    else if(ar==3)
+    {
+      if(this.state.sala3 == 0)
+    {
+      led.child('comando').set(30);
+    }else if (this.state.sala3 == 1)
+    {
+      led.child('comando').set(31);
+    }
+    }
+
+
+    else if(ar==4)
+    {
+      if(this.state.sala4 == 0)
+    {
+      led.child('comando').set(40);
+    }else if (this.state.sala4 == 1)
+    {
+      led.child('comando').set(41);
+    }
+    }
+
+
+    else if(ar==5)
+    {
+      if(this.state.sala5 == 0)
+    {
+      led.child('comando').set(50);
+    }else if (this.state.sala5 == 1)
+    {
+      led.child('comando').set(51);
+    }
+    }
+
+
+    else if(ar==6)
+    {
+      if(this.state.sala6 == 0)
+    {
+      led.child('comando').set(60);
+    }else if (this.state.sala6 == 1)
+    {
+      led.child('comando').set(61);
+    }
+    }
+
+
+    else if(ar==7)
+    {
+      if(this.state.sala7 == 0)
+    {
+      led.child('comando').set(70);
+    }else if (this.state.sala7 == 1)
+    {
+      led.child('comando').set(71);
+    }
+    }
+
+
+    else if(ar==8)
+    {
+      if(this.state.sala8 == 0)
+    {
+      led.child('comando').set(80);
+    }else if (this.state.sala8 == 1)
+    {
+      led.child('comando').set(81);
+    }
+    }
+
+
+    else if(ar==9)
+    {
+      if(this.state.sala9 == 0)
+    {
+      led.child('comando').set(90);
+    }else if (this.state.sala9 == 1)
+    {
+      led.child('comando').set(91);
+    }
+    }
+
+  }
+  
+  sideMenu(){
+    
+    Animated.timing(
+      this.state.menuside,{
+        toValue:0,
+        duration:700,
+        useNativeDriver: false
+      }
+    ).start()
+  }
+  
+  render(){
+    
+    
+    /*else if (menuStatus===true){  
+      
+      Animated.timing(
+        leftAnima,{
+          toValue:-500,
+          duration:1000,
+          useNativeDriver: false
+        }
+      ).start()
+      let timerAnimaMenu=setInterval(()=>{
+        setmenuStatus(false)
+        for (let j=0; j<=timerAnimaMenu; j++){
+          clearInterval(j);
+        }
+  
+      },1000)
+    }
+  }*/
+    return(
+
+    <View style={{flex:1}}>
+       
+
+
+      <View style={estilos.principal}>
+        <Image style={estilos.logo} source={require('./imagens/ifcelogo.png')} /*source={{uri}}*//>
+        <TouchableOpacity style={estilos.SideMenu} onPress={()=>this.sideMenu()}>
+          <MaterialCommunityIcons name='menu' size={40} color="green"/>
+        </TouchableOpacity>
+      </View>
+     
+
+      <View style={estilos.principal}>
+        <Text style={estilos.texto}>Projeto AirConditioner</Text>
+        <Animated.View style={{left:this.state.menuside,height:"100%",width:"60%",backgroundColor:"#e3e4e6",justifyContent:"space-evenly",alignItems:"center"}}>
+            <View>
+              <Text>Sala 1</Text>
+            </View>
+            <View >
+              <Text>Sala 2</Text>
+            </View>
+            <View >
+              <Text>Sala 3</Text>
+            </View>
+            <View >
+              <Text>Sala 4</Text>
+            </View>
+            <View >
+              <Text>Sala 5</Text>
+            </View>
+            <View >
+              <Text>Sala 6</Text>
+            </View>
+            <View >
+              <Text>Sala 7</Text>
+            </View>
+            <View >
+              <Text>Sala 8</Text>
+            </View>
+            <View >
+              <Text>Sala 9</Text>
+            </View>
+            <View >
+              <Text>Sala 10</Text>
+            </View>
+          </Animated.View>
+      </View>
+
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala1.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala1==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(1)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala2.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala2==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(2)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala3.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala3==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(3)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala4.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala4==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(4)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala5.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala5==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(5)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala6.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala6==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(6)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala7.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala7==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(7)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala8.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala8==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(8)}/>
+      </View>
+
+      <View style={estilos.principal}>
+        
+        <View style={estilos.Espaçamento}>
+        <Image style={{width:"100%",height:"100%"}} source={require('./imagens/sala9.png')}/>
+        </View>
+
+        <Button style={estilos.botão}
+        title="liga/desliga"
+        color={(this.state.sala9==1)?"#1fc600":"#bf0000"}
+        onPress={()=>this.Liga_e_Desligar_AR(9)}/>
+      </View>
+    </View>
+    );
+  }
+}
+
+export default App;
+
+const estilos = StyleSheet.create({
+  principal:{ 
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor:"black"
+  },
+  texto:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "green"
+  },
+  botão:{
+    height: 12,
+    
+  },
+  logo:{
+    width:200,
+    height: 200
+  },
+  Espaçamento:{
+    padding: 10,
+    width: 150,
+    height:150
+
+  },
+  SideMenu:{
+   position:"absolute",
+   width:80,
+   
+   top:0,
+   left:0
+
+
+  }
+})
